@@ -221,11 +221,13 @@ export class GoogleMap implements OnChanges, OnInit, OnDestroy {
     const combinedOptionsChanges = this._combineOptions();
 
     this._googleMapChanges = this._initializeMap(combinedOptionsChanges);
-    this._googleMapChanges.subscribe((googleMap: google.maps.Map) => {
-      this._googleMap = googleMap as UpdatedGoogleMap;
+    this._googleMapChanges
+        .pipe(takeUntil(this._destroy))
+        .subscribe((googleMap: google.maps.Map) => {
+            this._googleMap = googleMap as UpdatedGoogleMap;
 
-      this._initializeEventHandlers();
-    });
+            this._initializeEventHandlers();
+        });
 
     this._watchForOptionsChanges();
     this._watchForCenterChanges();

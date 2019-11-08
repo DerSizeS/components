@@ -214,7 +214,7 @@ export class MapMarker implements OnInit, OnDestroy {
   ngOnInit() {
     const combinedOptionsChanges = this._combineOptions();
 
-    combinedOptionsChanges.pipe(take(1)).subscribe(options => {
+    combinedOptionsChanges.pipe(take(1), takeUntil(this._destroy)).subscribe(options => {
       this._marker = new google.maps.Marker(options);
       this._marker.setMap(this._googleMap._googleMap);
       this._initializeEventHandlers();
